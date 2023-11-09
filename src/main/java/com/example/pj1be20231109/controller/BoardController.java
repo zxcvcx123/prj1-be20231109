@@ -15,6 +15,4 @@ public class BoardController {
         System.out.println("BoardController.add");
     }
 
-
-
 }
