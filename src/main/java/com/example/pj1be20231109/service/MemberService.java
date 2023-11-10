@@ -5,13 +5,15 @@ import com.example.pj1be20231109.mapper.MemberMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class MemberService {
 
     private final MemberMapper mapper;
 
-    public boolean add(Member member)
+    public boolean add(Member member){
         return mapper.insert(member) == 1;
     }
 
@@ -19,7 +21,7 @@ public class MemberService {
        return mapper.selectId(id);
     }
 
-    public String getEmail(String email) {<script>console.log("hi")</script>
+    public String getEmail(String email) {
         return mapper.selectEmail(email);
     }
 
@@ -42,6 +44,9 @@ public class MemberService {
         }
 
         return true;
+    }
 
+    public List<Member> list() {
+        return mapper.selectAll();
     }
 }
