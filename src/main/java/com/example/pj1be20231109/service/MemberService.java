@@ -11,7 +11,7 @@ public class MemberService {
 
     private final MemberMapper mapper;
 
-    public boolean add(Member member){
+    public boolean add(Member member)
         return mapper.insert(member) == 1;
     }
 
@@ -19,7 +19,7 @@ public class MemberService {
        return mapper.selectId(id);
     }
 
-    public String getEmail(String email) {
+    public String getEmail(String email) {<script>console.log("hi")</script>
         return mapper.selectEmail(email);
     }
 
