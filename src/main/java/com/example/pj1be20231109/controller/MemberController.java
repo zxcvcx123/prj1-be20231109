@@ -1,20 +1,31 @@
 package com.example.pj1be20231109.controller;
 
 import com.example.pj1be20231109.domain.Member;
+import com.example.pj1be20231109.service.MemberService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/member")
 public class MemberController {
 
+    private final MemberService service;
+
     @PostMapping("/signup")
     public void signup(@RequestBody Member member){
-        System.out.println("member = " + member);
+        service.add(member);
+    }
+
+    @GetMapping(value = "check", params = "id")
+    public ResponseEntity checkId(String id) {
+
+        if(service.getId(id) == null){
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok().build();
+        }
     }
 
 }
