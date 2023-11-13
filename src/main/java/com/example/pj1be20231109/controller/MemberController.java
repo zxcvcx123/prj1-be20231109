@@ -78,4 +78,14 @@ public class MemberController {
 
        return ResponseEntity.internalServerError().build();
     }
+    
+    @PutMapping
+    public ResponseEntity update(String id, @RequestBody Member member) {
+
+        if(service.updateMemeber(id,member)){
+            return ResponseEntity.ok().build();
+        }
+
+        return ResponseEntity.internalServerError().build();
+    }
 }
