@@ -48,10 +48,15 @@ public interface MemberMapper {
     int deleteById(String id);
 
     @Update("""
+            <script>
             UPDATE member
-            SET password = #{member.password},
-                email = #{member.email}
+            SET 
+                <if test="password != ''">
+                    password = #{password},
+                </if>
+                email = #{email}
             WHERE id = #{id}
+            </script>
             """)
-    int updateByMember(String id, Member member);
+    int update(Member member);
 }

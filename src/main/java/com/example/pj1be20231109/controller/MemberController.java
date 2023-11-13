@@ -79,13 +79,18 @@ public class MemberController {
        return ResponseEntity.internalServerError().build();
     }
     
-    @PutMapping
-    public ResponseEntity update(String id, @RequestBody Member member) {
+    @PutMapping("/edit")
+    public ResponseEntity edit(@RequestBody Member member) {
 
-        if(service.updateMemeber(id,member)){
+        // TODO: 로그인 했는지? -> 안했으면 401
+        // TODO: 본인 정보인지? -> 아니면 403
+
+        if(service.update(member)){
             return ResponseEntity.ok().build();
+        } else {
+
+            return ResponseEntity.internalServerError().build();
         }
 
-        return ResponseEntity.internalServerError().build();
     }
 }
