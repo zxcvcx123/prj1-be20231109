@@ -9,8 +9,8 @@ import java.util.List;
 public interface MemberMapper {
 
     @Insert("""
-            INSERT INTO member (id, password, email)
-            VALUES (#{id}, #{password}, #{email})
+            INSERT INTO member (id, password, email, nickname)
+            VALUES (#{id}, #{password}, #{email}, #{nickname})
             """)
     int insert(Member member);
 
@@ -54,9 +54,17 @@ public interface MemberMapper {
                 <if test="password != ''">
                     password = #{password},
                 </if>
-                email = #{email}
+                email = #{email},
+                nickname = #{nickname}
             WHERE id = #{id}
             </script>
             """)
     int update(Member member);
+
+    @Select("""
+                SELECT nickname
+                FROM member
+                WHERE nickname = #{nickname}
+            """)
+    String getNickName(String nickname);
 }

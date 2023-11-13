@@ -43,6 +43,10 @@ public class MemberService {
             return false;
         }
 
+        if(member.getNickname().isBlank()){
+            return false;
+        }
+
         return true;
     }
 
@@ -65,8 +69,13 @@ public class MemberService {
 //        if (member.getPassword().equals("")) {
 //            member.setPassword(oldMember.getPassword());
 //        }
+
+
         return mapper.update(member) == 1;
     }
 
 
+    public String getNickName(String nickname) {
+        return mapper.getNickName(nickname);
+    }
 }
