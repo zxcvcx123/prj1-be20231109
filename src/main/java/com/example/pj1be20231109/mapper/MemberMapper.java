@@ -1,6 +1,7 @@
 package com.example.pj1be20231109.mapper;
 
 import com.example.pj1be20231109.domain.Member;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -37,9 +38,15 @@ public interface MemberMapper {
     List<Member> selectAll();
 
     @Select("""
-                SELECT *
-                FROM member
-                WHERE id = #{id}
+            SELECT *
+            FROM member
+            WHERE id = #{id}
             """)
     Member selectById(String id);
+
+    @Delete("""
+            DELETE FROM member
+            WHERE id = #{id}
+            """)
+    int deleteById(String id);
 }
