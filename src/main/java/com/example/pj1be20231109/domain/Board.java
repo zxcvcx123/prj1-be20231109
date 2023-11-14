@@ -12,5 +12,6 @@ public class Board {
     private String title;
     private String content;
     private String writer;
+    private String nickname;
     private LocalDateTime inserted;
 }
