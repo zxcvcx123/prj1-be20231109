@@ -20,14 +20,14 @@ public class MemberController {
     private final MemberService service;
 
     @PostMapping("/signup")
-    public ResponseEntity signup(@RequestBody Member member){
+    public ResponseEntity signup(@RequestBody Member member) {
 
-        if(service.validate(member)){
-           if( service.add(member)){
-               return ResponseEntity.ok().build();
-           } else {
-               return ResponseEntity.internalServerError().build();
-           }
+        if (service.validate(member)) {
+            if (service.add(member)) {
+                return ResponseEntity.ok().build();
+            } else {
+                return ResponseEntity.internalServerError().build();
+            }
         } else {
             return ResponseEntity.badRequest().build();
         }
@@ -37,7 +37,7 @@ public class MemberController {
     @GetMapping(value = "check", params = "id")
     public ResponseEntity checkId(String id) {
 
-        if(service.getId(id) == null){
+        if (service.getId(id) == null) {
             return ResponseEntity.notFound().build();
         } else {
             return ResponseEntity.ok().build();
@@ -45,9 +45,9 @@ public class MemberController {
     }
 
     @GetMapping(value = "check", params = "email")
-    public ResponseEntity checkEmail(String email){
+    public ResponseEntity checkEmail(String email) {
 
-        if(service.getEmail(email) == null){
+        if (service.getEmail(email) == null) {
             return ResponseEntity.notFound().build();
         } else {
             return ResponseEntity.ok().build();
@@ -55,38 +55,51 @@ public class MemberController {
     }
 
     @GetMapping("list")
-    public List<Member> list(){
-       return service.list();
+    public List<Member> list() {
+        return service.list();
     }
 
     @GetMapping
-    public ResponseEntity<Member> view(String id){
+    public ResponseEntity<Member> view(String id) {
 
         // TODO: 로그인 했는지? -> 안했으면 401
         // TODO: 본인 정보인지? -> 아니면 403
 
-       Member member = service.getMember(id);
+        Member member = service.getMember(id);
 
         return ResponseEntity.ok(member);
     }
 
     @DeleteMapping
-    public ResponseEntity delete(String id){
+    public ResponseEntity delete(String id, @SessionAttribute(value = "login", required = false) Member login) {
 
-        // TODO: 로그인 했는지? -> 안했으면 401
-        // TODO: 본인 정보인지? -> 아니면 403
+        if (login == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
 
-       if( service.deleteMember(id)){
-           return ResponseEntity.ok().build();
-       }
+        if(!service.hasAccess(id, login)){
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
 
-       return ResponseEntity.internalServerError().build();
+        if (service.deleteMember(id)) {
+            return ResponseEntity.ok().build();
+        }
+
+        return ResponseEntity.internalServerError().build();
     }
-    
-    @PutMapping("/edit")
-    public ResponseEntity edit(@RequestBody Member member) {
 
-        if(service.update(member)){
+    @PutMapping("/edit")
+    public ResponseEntity edit(@RequestBody Member member, @SessionAttribute(value = "login", required = false) Member login) {
+
+        if(login == null){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        if(!service.hasAccess(member.getId(), login)){
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
+        if (service.update(member)) {
             return ResponseEntity.ok().build();
         } else {
 
@@ -96,9 +109,9 @@ public class MemberController {
     }
 
     @GetMapping(value = "check", params = "nickname")
-    public ResponseEntity checkNickName(String nickname){
+    public ResponseEntity checkNickName(String nickname) {
 
-        if(service.getNickName(nickname) == null){
+        if (service.getNickName(nickname) == null) {
             return ResponseEntity.notFound().build();
         } else {
             return ResponseEntity.ok().build();
@@ -106,9 +119,9 @@ public class MemberController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody Member member, WebRequest request){
+    public ResponseEntity login(@RequestBody Member member, WebRequest request) {
 
-        if(service.login(member, request)){
+        if (service.login(member, request)) {
             return ResponseEntity.ok().build();
         } else {
 
@@ -117,8 +130,8 @@ public class MemberController {
     }
 
     @PostMapping("/logout")
-    public void logout(HttpSession session){
-        if(session != null){
+    public void logout(HttpSession session) {
+        if (session != null) {
             session.invalidate();
         }
     }
