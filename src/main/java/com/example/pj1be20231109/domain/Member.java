@@ -4,6 +4,7 @@ import lombok.Data;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 public class Member {
@@ -14,5 +15,6 @@ public class Member {
 
     private String nickname;
     private LocalDateTime inserted;
+    private List<Auth> auth;
 
 }

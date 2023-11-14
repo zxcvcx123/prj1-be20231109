@@ -1,5 +1,6 @@
 package com.example.pj1be20231109.service;
 
+import com.example.pj1be20231109.domain.Auth;
 import com.example.pj1be20231109.domain.Member;
 import com.example.pj1be20231109.mapper.BoardMapper;
 import com.example.pj1be20231109.mapper.MemberMapper;
@@ -18,12 +19,12 @@ public class MemberService {
 
     private final BoardMapper boardMapper;
 
-    public boolean add(Member member){
+    public boolean add(Member member) {
         return mapper.insert(member) == 1;
     }
 
     public String getId(String id) {
-       return mapper.selectId(id);
+        return mapper.selectId(id);
     }
 
     public String getEmail(String email) {
@@ -32,23 +33,23 @@ public class MemberService {
 
     public boolean validate(Member member) {
 
-        if(member == null){
+        if (member == null) {
             return false;
         }
 
-        if(member.getEmail().isBlank()){
+        if (member.getEmail().isBlank()) {
             return false;
         }
 
-        if(member.getPassword().isBlank()){
+        if (member.getPassword().isBlank()) {
             return false;
         }
 
-        if(member.getId().isBlank()){
+        if (member.getId().isBlank()) {
             return false;
         }
 
-        if(member.getNickname().isBlank()){
+        if (member.getNickname().isBlank()) {
             return false;
         }
 
@@ -67,9 +68,6 @@ public class MemberService {
 
         boardMapper.deleteByWriter(id);
 
-
-
-
         return mapper.deleteById(id) == 1;
     }
 
@@ -80,7 +78,6 @@ public class MemberService {
 //            member.setPassword(oldMember.getPassword());
 //        }
 
-
         return mapper.update(member) == 1;
     }
 
@@ -90,22 +87,24 @@ public class MemberService {
     }
 
     public boolean login(Member member, WebRequest request) {
-       Member dbMember = mapper.selectById(member.getId());
+        Member dbMember = mapper.selectById(member.getId());
 
-       if(dbMember != null){
-           if(dbMember.getPassword().equals(member.getPassword())){
-               dbMember.setPassword("");
-               request.setAttribute("login", dbMember, RequestAttributes.SCOPE_SESSION);
-               return true;
-           }
-       }
 
-       return false;
+        if (dbMember != null) {
+            if (dbMember.getPassword().equals(member.getPassword())) {
+                List<Auth> auth = mapper.selectAuthById(member.getId());
+                dbMember.setAuth(auth);
+                dbMember.setPassword("");
+                request.setAttribute("login", dbMember, RequestAttributes.SCOPE_SESSION);
+                return true;
+            }
+        }
+
+        return false;
 
     }
 
     public boolean hasAccess(String id, Member login) {
-
 
         return login.getId().equals(id);
     }

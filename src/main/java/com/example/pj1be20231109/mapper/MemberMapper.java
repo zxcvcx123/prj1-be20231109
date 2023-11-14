@@ -1,5 +1,6 @@
 package com.example.pj1be20231109.mapper;
 
+import com.example.pj1be20231109.domain.Auth;
 import com.example.pj1be20231109.domain.Member;
 import org.apache.ibatis.annotations.*;
 
@@ -49,14 +50,14 @@ public interface MemberMapper {
 
     @Update("""
             <script>
-            UPDATE member
-            SET 
-                <if test="password != ''">
-                    password = #{password},
-                </if>
-                email = #{email},
-                nickname = #{nickname}
-            WHERE id = #{id}
+                UPDATE member
+                SET 
+                    <if test="password != ''">
+                        password = #{password},
+                    </if>
+                    email = #{email},
+                    nickname = #{nickname}
+                WHERE id = #{id}
             </script>
             """)
     int update(Member member);
@@ -67,4 +68,11 @@ public interface MemberMapper {
                 WHERE nickname = #{nickname}
             """)
     String getNickName(String nickname);
+
+    @Select("""
+                SELECT *
+                FROM auth
+                WHERE memberId = #{id}
+            """)
+    List<Auth> selectAuthById(String id);
 }
