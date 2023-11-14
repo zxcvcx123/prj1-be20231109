@@ -6,6 +6,7 @@ import com.example.pj1be20231109.service.BoardService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.apache.ibatis.annotations.Delete;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,13 +23,15 @@ public class BoardController {
     @PostMapping("/add")
     public ResponseEntity add(@RequestBody Board board, @SessionAttribute(value = "login", required = false) Member login){
 
-        System.out.println("login = " + login);
+        if(login == null){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
 
         if(!service.validate(board)){
             return ResponseEntity.badRequest().build();
         }
 
-        if(service.save(board)){
+        if(service.save(board, login)){
            return ResponseEntity.ok().build();
         } else {
            return ResponseEntity.internalServerError().build();
