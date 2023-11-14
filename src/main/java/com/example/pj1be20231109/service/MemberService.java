@@ -4,6 +4,8 @@ import com.example.pj1be20231109.domain.Member;
 import com.example.pj1be20231109.mapper.MemberMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.WebRequest;
 
 import java.util.List;
 
@@ -77,5 +79,20 @@ public class MemberService {
 
     public String getNickName(String nickname) {
         return mapper.getNickName(nickname);
+    }
+
+    public boolean login(Member member, WebRequest request) {
+       Member dbMember = mapper.selectById(member.getId());
+
+       if(dbMember != null){
+           if(dbMember.getPassword().equals(member.getPassword())){
+               dbMember.setPassword("");
+               request.setAttribute("login", dbMember, RequestAttributes.SCOPE_SESSION);
+               return true;
+           }
+       }
+
+       return false;
+
     }
 }
