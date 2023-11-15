@@ -44,6 +44,11 @@ public class CommentService {
 
         return mapper.getCommetList(comment);
     }
+
+    public void remove(Integer id) {
+
+        mapper.deleteById(id);
+    }
 }
 
 

@@ -44,4 +44,12 @@ public class CommentController {
         return service.getCommentList(comment);
     }
 
+    @DeleteMapping("{id}")
+    public void remove(@PathVariable("id") Integer id){
+
+        service.remove(id);
+
+
+    }
+
 }

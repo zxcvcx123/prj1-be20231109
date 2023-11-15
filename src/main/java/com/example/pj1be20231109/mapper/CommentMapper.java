@@ -1,6 +1,7 @@
 package com.example.pj1be20231109.mapper;
 
 import com.example.pj1be20231109.domain.Comment;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -22,4 +23,10 @@ public interface CommentMapper {
             WHERE boardId = #{boardId}
             """)
     List<Comment> getCommetList(Comment comment);
+
+    @Delete("""
+            DELETE FROM comment
+            WHERE id = #{id}
+            """)
+    void deleteById(Integer id);
 }
