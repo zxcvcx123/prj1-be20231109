@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/comment")
@@ -36,4 +38,10 @@ public class CommentController {
 
 
     }
+
+    @GetMapping("/list")
+    public List<Comment> getCommentList(Comment comment){
+        return service.getCommentList(comment);
+    }
+
 }
