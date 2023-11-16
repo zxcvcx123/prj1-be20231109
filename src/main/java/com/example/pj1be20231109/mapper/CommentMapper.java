@@ -42,10 +42,22 @@ public interface CommentMapper {
             """)
     Comment selectById(Integer id);
 
-@Update("""
-        UPDATE comment
-        SET comment = #{comment}
-        WHERE id = #{id}
-        """)
+    @Update("""
+            UPDATE comment
+            SET comment = #{comment}
+            WHERE id = #{id}
+            """)
     int update(Comment comment);
+
+    @Delete("""
+            DELETE FROM comment
+            WHERE boardId = #{boardId}
+            """)
+    int deleteByBoardId(Integer boardId);
+
+    @Delete("""
+            DELETE FROM comment
+            WHERE memberId = #{memberId}
+            """)
+    int deleteByMemberId(String memberId);
 }
