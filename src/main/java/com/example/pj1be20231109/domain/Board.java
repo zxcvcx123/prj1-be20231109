@@ -13,5 +13,6 @@ public class Board {
     private String content;
     private String writer;
     private String nickname;
+    private Integer countComment;
     private LocalDateTime inserted;
 }
