@@ -16,8 +16,17 @@ public interface CommentMapper {
     int insert(Comment comment);
 
     @Select("""
-            SELECT * FROM comment
+            SELECT 
+                    c.id, 
+                    c.boardId, 
+                    c.memberId, 
+                    c.comment, 
+                    c.inserted, 
+                    m.nickName nickname 
+            FROM comment c JOIN member m 
+                ON c.memberId = m.id
             WHERE boardId = #{boardId}
+            ORDER BY c.id DESC
             """)
     List<Comment> getCommetList(Comment comment);
 
