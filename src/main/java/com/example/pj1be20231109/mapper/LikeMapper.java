@@ -3,7 +3,9 @@ package com.example.pj1be20231109.mapper;
 import com.example.pj1be20231109.domain.Like;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Mapper;
 
+@Mapper
 public interface LikeMapper {
 
     @Delete("""
