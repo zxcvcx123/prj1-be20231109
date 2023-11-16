@@ -62,11 +62,11 @@ public class MemberController {
     @GetMapping
     public ResponseEntity<Member> view(String id, @SessionAttribute(value = "login", required = false) Member login) {
 
-        if(login == null){
+        if (login == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
-        if(!service.hasAccess(id, login)){
+        if (!service.hasAccess(id, login)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
 
@@ -76,17 +76,20 @@ public class MemberController {
     }
 
     @DeleteMapping
-    public ResponseEntity delete(String id, @SessionAttribute(value = "login", required = false) Member login) {
+    public ResponseEntity delete(String id,
+                                 @SessionAttribute(value = "login", required = false) Member login,
+                                 HttpSession session) {
 
         if (login == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
-        if(!service.hasAccess(id, login)){
+        if (!service.hasAccess(id, login)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
 
         if (service.deleteMember(id)) {
+            session.invalidate();
             return ResponseEntity.ok().build();
         }
 
@@ -96,11 +99,11 @@ public class MemberController {
     @PutMapping("/edit")
     public ResponseEntity edit(@RequestBody Member member, @SessionAttribute(value = "login", required = false) Member login) {
 
-        if(login == null){
+        if (login == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
-        if(!service.hasAccess(member.getId(), login)){
+        if (!service.hasAccess(member.getId(), login)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
 
@@ -142,7 +145,7 @@ public class MemberController {
     }
 
     @GetMapping("login")
-    public Member login(@SessionAttribute(value = "login", required = false) Member login){
+    public Member login(@SessionAttribute(value = "login", required = false) Member login) {
         return login;
     }
 }
