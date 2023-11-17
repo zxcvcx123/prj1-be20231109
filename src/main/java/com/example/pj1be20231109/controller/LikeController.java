@@ -25,10 +25,14 @@ public class LikeController {
            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
-
-
         return ResponseEntity.ok(service.update(like, login));
 
     }
 
+    @GetMapping("/board/{boardId}")
+    public ResponseEntity<Map<String, Object>> get(@PathVariable Integer boardId,
+                                                   @SessionAttribute(value = "login", required = false) Member login){
+
+        return ResponseEntity.ok(service.get(boardId, login));
+    }
 }
