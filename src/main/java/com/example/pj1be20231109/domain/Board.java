@@ -25,3 +25,4 @@ public class Board {
         return AppUtil.getAgo(inserted, LocalDateTime.now());
     }
 }
+

@@ -29,8 +29,9 @@ public interface BoardMapper {
                                on b.id = c.boardId
             GROUP BY b.id
             ORDER BY id DESC
+            LIMIT #{from}, 10
             """)
-    List<Board> selectAll();
+    List<Board> selectAll(Integer from);
 
 
     @Select("""
