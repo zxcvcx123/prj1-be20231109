@@ -67,7 +67,7 @@ public class BoardService {
         pageInfo.put("startPageNumber", startPageNumber);
         pageInfo.put("endPageNumber", endPageNumber);
         pageInfo.put("lastPageNumber", lastPageNumber);
-
+        pageInfo.put("currentPageNumber", page);
         if(prevPageNumber > 0){
             pageInfo.put("prevPageNumber", prevPageNumber);
         }
