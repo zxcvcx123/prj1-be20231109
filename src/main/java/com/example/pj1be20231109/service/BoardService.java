@@ -1,9 +1,11 @@
 package com.example.pj1be20231109.service;
 
 import com.example.pj1be20231109.domain.Board;
+import com.example.pj1be20231109.domain.Like;
 import com.example.pj1be20231109.domain.Member;
 import com.example.pj1be20231109.mapper.BoardMapper;
 import com.example.pj1be20231109.mapper.CommentMapper;
+import com.example.pj1be20231109.mapper.LikeMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,7 @@ public class BoardService {
 
     private final BoardMapper mapper;
     private final CommentMapper commentMapper;
+    private final LikeMapper likeMapper;
 
     public boolean save(Board board, Member login) {
 
@@ -55,7 +58,9 @@ public class BoardService {
 
         // 1. 게시물에 달린 댓글 삭제
         commentMapper.deleteByBoardId(id);
-        
+
+        // 게시물에 달린 좋아요 삭제
+        likeMapper.deleteByBoardId(id);
         
         return mapper.deleteById(id) == 1;
     }
