@@ -75,7 +75,9 @@ public interface BoardMapper {
 
     @Select("""
             SELECT COUNT(*) 
-            FROM board;
+            FROM board
+            WHERE content LIKE #{keyword}
+                OR title LIKE #{keyword} 
             """)
-    int countAll();
+    int countAll(String keyword);
 }
