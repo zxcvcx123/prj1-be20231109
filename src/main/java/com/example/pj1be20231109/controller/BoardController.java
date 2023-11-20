@@ -26,13 +26,9 @@ public class BoardController {
     @PostMapping("/add")
     public ResponseEntity add(Board board,
                               @RequestParam(value = "files[]", required = false) MultipartFile[] files,
-                              @SessionAttribute(value = "login", required = false) Member login){
-        if(files != null) {
-            for(int i = 0; i < files.length; i++){
-                System.out.println("files[i].getOriginalFilename() = " + files[i].getOriginalFilename());
-                System.out.println("files[i].getSize() = " + files[i].getSize());
-            }
-        }
+                              @SessionAttribute(value = "login", required = false) Member login) throws Exception {
+
+
         if(login == null){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
@@ -41,7 +37,7 @@ public class BoardController {
             return ResponseEntity.badRequest().build();
         }
 
-        if(service.save(board, login)){
+        if(service.save(board, files ,login)){
            return ResponseEntity.ok().build();
         } else {
            return ResponseEntity.internalServerError().build();
