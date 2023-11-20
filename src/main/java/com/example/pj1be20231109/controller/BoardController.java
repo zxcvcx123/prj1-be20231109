@@ -9,7 +9,9 @@ import org.apache.ibatis.annotations.Delete;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -22,8 +24,15 @@ public class BoardController {
     private final BoardService service;
 
     @PostMapping("/add")
-    public ResponseEntity add(@RequestBody Board board, @SessionAttribute(value = "login", required = false) Member login){
-
+    public ResponseEntity add(Board board,
+                              @RequestParam(value = "files[]", required = false) MultipartFile[] files,
+                              @SessionAttribute(value = "login", required = false) Member login){
+        if(files != null) {
+            for(int i = 0; i < files.length; i++){
+                System.out.println("files[i].getOriginalFilename() = " + files[i].getOriginalFilename());
+                System.out.println("files[i].getSize() = " + files[i].getSize());
+            }
+        }
         if(login == null){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
