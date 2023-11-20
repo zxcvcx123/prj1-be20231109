@@ -33,6 +33,7 @@ public class BoardService {
     private final LikeMapper likeMapper;
     private final FileMapper fileMapper;
 
+
     private final S3Client s3;
 
     @Value("${aw3.s3.bucket.name}")
